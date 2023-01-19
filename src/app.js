@@ -1,27 +1,13 @@
-export default function orderByProps(object, array) {
+export default function showDescription({ special }) {
   const result = [];
 
-  for (const property in object) {
-    if (Object.prototype.hasOwnProperty.call(object, property) && !array.includes(property)) {
-      result.push({ key: property, value: object[property] });
-    }
-  }
-
-  result.sort((a, b) => {
-    if (a.key > b.key) {
-      return 1;
-    }
-    return -1;
+  special.forEach((element) => {
+    const {
+      description = 'Описание недоступно', ...rest
+    } = element;
+    result.push({
+      ...rest, description,
+    });
   });
-
-  for (let i = array.length - 1; i >= 0; i -= 1) {
-    if (Object.prototype.hasOwnProperty.call(object, array[i])) {
-      result.unshift({
-        key: array[i],
-        value: object[array[i]],
-      });
-    }
-  }
-
   return result;
 }

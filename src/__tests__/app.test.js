@@ -1,39 +1,62 @@
-import orderByProps from '../app';
+import showDescription from '../app';
 
-test('Сортировка в указанном порядке: name, level', () => {
+test('Возвращает массив с 4 свойствами', () => {
   const obj = {
-    name: 'мечник',
-    health: 10,
-    level: 2,
-    attack: 80,
-    defence: 40,
+    name: 'Лучник',
+    type: 'Bowman',
+    health: 50,
+    level: 3,
+    attack: 40,
+    defence: 10,
+    special: [
+      {
+        id: 8,
+        name: 'Двойной выстрел',
+        icon: 'http://...',
+        description: 'Двойной выстрел наносит двойной урон',
+      },
+    ],
   };
-  const result = [
-    { key: 'name', value: 'мечник' },
-    { key: 'level', value: 2 },
-    { key: 'attack', value: 80 },
-    { key: 'defence', value: 40 },
-    { key: 'health', value: 10 },
+
+  const expected = [
+    {
+      id: 8,
+      name: 'Двойной выстрел',
+      icon: 'http://...',
+      description: 'Двойной выстрел наносит двойной урон',
+    },
   ];
-  const order = orderByProps(obj, ['name', 'level']);
-  expect(order).toEqual(result);
+
+  const result = showDescription(obj);
+  expect(result).toEqual(expected);
 });
 
-test('Сортировка по алфавиту', () => {
+test('Возвращает массив со свойствами по-умолчанию', () => {
   const obj = {
-    name: 'мечник',
-    health: 10,
-    level: 2,
-    attack: 80,
-    defence: 40,
+    name: 'Лучник',
+    type: 'Bowman',
+    health: 50,
+    level: 3,
+    attack: 40,
+    defence: 10,
+    special: [
+      {
+        id: 8,
+        name: 'Двойной выстрел',
+        icon: 'http://...',
+      },
+    ],
   };
-  const result = [
-    { key: 'attack', value: 80 },
-    { key: 'defence', value: 40 },
-    { key: 'health', value: 10 },
-    { key: 'level', value: 2 },
-    { key: 'name', value: 'мечник' },
+
+  const expected = [
+    {
+      id: 8,
+      name: 'Двойной выстрел',
+      icon: 'http://...',
+      description: 'Описание недоступно',
+    },
   ];
-  const order = orderByProps(obj, []);
-  expect(order).toEqual(result);
+
+  const result = showDescription(obj);
+  expect(result).toEqual(expected);
 });
